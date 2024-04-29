@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <title>Dashboard</title>
+    <style>
+        .dashbord-tables{
+            animation: transitionIn-Y-over 0.5s;
+        }
+        .filter-container{
+            animation: transitionIn-Y-bottom  0.5s;
+        }
+        .sub-table{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="menu">
+        <table class="menu-container" border="0">
+            <tr>
+                <td style="padding:10px" colspan="2">
+                    <table border="0" class="profile-container">
+                        <tr>
+                            <td width="30%" style="padding-left:20px" >
+                                <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                            </td>
+                            <td style="padding:0px;margin:0px;">
+                                <p class="profile-title">Doctor</p>
+                                <p class="profile-subtitle" id="doctorEmailPlaceholder"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" value="Log out" class="logout-btn btn-primary-soft btn" onclick="logoutUser()">Logout</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="menu-row" >
+                <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active" >
+                    <a href="doctorPage.html" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
+    </td>
+    </tr>
+<!--    <tr class="menu-row">-->
+<!--        <td class="menu-btn menu-icon-doctor ">-->
+<!--            <a href="doctors.html" class="non-style-link-menu "><div><p class="menu-text">Doctors</p></a></div>-->
+<!--</td>-->
+<!--</tr>-->
+<tr class="menu-row">
+    <td class="menu-btn menu-icon-appoinment">
+        <a href="../Doctor/appointment.html" class="non-style-link-menu"><div><p class="menu-text">Appointments</p></a></div>
+    </td>
+</tr>
+<tr class="menu-row" >
+    <td class="menu-btn menu-icon-patient">
+        <a href="../Doctor/patient.html" class="non-style-link-menu"><div><p class="menu-text">Patients</p></a></div>
+    </td>
+</tr>
+</table>
+</div>
+<div class="dash-body" style="margin-top: 15px">
+    <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;" >
+
+        <tr>
+            <td colspan="4">
+
+                <center>
+                    <table class="filter-container" style="border: none;" border="0">
+                        <tr>
+                            <td colspan="4">
+                                <p style="font-size: 20px;font-weight:600;padding-left: 12px;">Welcome</p>
+                            </td>
+                        </tr>
+                        <tr>
+
+            </td>
+            <td style="width: 25%;">
+                <div  class="dashboard-items"  style="padding:20px;margin:auto;width:95%;display: flex;padding-top:26px;padding-bottom:26px;">
+                    <div>
+                        <div class="h1-dashboard">
+                        </div>
+                        <div class="h3-dashboard" style="font-size: 30px">
+                            Health is Wealth!!
+                        </div>
+                        <br>
+
+                    </div>
+                    <!-- <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/session-iceblue.svg');"></div> -->
+                </div>
+            </td>
+
+        </tr>
+    </table>
+    </center>
+    </td>
+    </tr>
+
+    </center>
+    </td>
+    </tr>
+    </table>
+</div>
+</div>
+
+
+</body>
+</html>
+
+<script>
+
+    const doctorEmail = localStorage.getItem('DoctorEmail');
+
+    const doctorEmailElement = document.getElementById("doctorEmailPlaceholder");
+
+    // Set the text content of the placeholder element to the email address
+    doctorEmailElement.textContent = doctorEmail;
+
+    function logoutUser() {
+
+    localStorage.setItem("DoctorName", JSON.stringify(""));
+    localStorage.setItem("DoctorEmail", JSON.stringify(""));
+    localStorage.setItem("DoctorId", JSON.stringify(""));
+    alert("Doctor LogOut SucessFull!!");
+    window.location.href = "../index.html";
+
+
+}</script>

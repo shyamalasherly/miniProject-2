@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/animations.css">  
+    <link rel="stylesheet" href="css/main.css">  
+    <link rel="stylesheet" href="css/login.css">
+        
+    <title>Login</title>
+
+    
+    
+</head>
+<body>
+
+    <center>
+    <div class="container">
+        <table border="0" style="margin: 0;padding: 0;width: 60%;">
+            <tr>
+                <td>
+                    <p class="header-text">Patient Login!</p>
+                </td>
+            </tr>
+        <div class="form-body">
+            <tr>
+                <td>
+                    <p class="sub-text">Login with your details to continue</p>
+                </td>
+            </tr>
+            <tr>
+                <!-- <form action="" method="POST" > -->
+                <td class="label-td">
+                    <label for="useremail" class="form-label">Email: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td">
+                    <input type="email" name="useremail" name="email" id="email" class="input-text" placeholder="Email Address" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td">
+                    <label for="userpassword" class="form-label">Password: </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label-td">
+                    <input type="Password" name="userpassword" id="password" class="input-text" placeholder="Password" required>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td><br>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <!-- <button class="btn btn-primary" onclick="sign_in()">Login</button> -->
+                    <button class="btn btn-primary" onclick="sign_in()">Login</button>
+                </td>
+            </tr>
+        </div>
+            <tr>
+                <td>
+                    <br>
+                    <label for="" class="sub-text" style="font-weight: 280;">Don't have an account&#63; </label>
+                    <a href="signup.html" class="hover-link1 non-style-link">Sign Up</a>
+                    <br><br><br>
+                </td>
+            </tr>
+                        
+                        
+    
+                        
+                    </form>
+        </table>
+
+    </div>
+</center>
+</body>
+</html>
+<script>
+//     let currUserID = JSON.parse(localStorage.getItem('uuid'));
+// const userID = JSON.parse(localStorage.getItem('userid'));
+// const currUser = JSON.parse(localStorage.getItem('uuid'));
+let baseURL = `http://localhost:8080`;
+// if(currUserID == undefined){
+//     currUserID = null;
+// }
+
+// localStorage.setItem('uuid', JSON.stringify(currUserID));
+
+//custome alert
+function sign_in() {
+    let password = document.getElementById("password").value;
+    let email = document.getElementById("email").value;
+
+    if (password == '' || email == '') {
+        alert('Please fill all mandatory field !!');
+        return false;
+    }
+    // if (!document.getElementById("agree").checked) {
+    //     showToast('Please check Accepting all terms & conditions!!');
+    //     return false;
+    // }
+    let signInObj = {
+        "patientEmail": email,
+        "patientPassword": password
+    }
+    
+    // if (signInObj.email == "admin" && signInObj.password == "admin1234") loginAdmin(signInObj);
+    // else loginUser(signInObj);
+    loginUser(signInObj);
+    console.log(signInObj);
+}
+
+
+function loginUser(obj) {
+
+    fetch(`${baseURL}/patient/signin`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that we're sending JSON data
+            },
+            body: JSON.stringify(obj), // Convert the data to JSON format
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.status !== "Authentication Successfull !!!") {
+                alert(data.message);
+            } else {
+                alert("User Login SucessFull!!");
+                console.log("TokenId:"+data.token);
+                console.log("Data"+data);
+                console.log("PatientName: "+data.name);
+
+                localStorage.setItem("patientId",data.patientId);
+                localStorage.setItem("patientName",data.name);
+                localStorage.setItem("patientEmail",data.patientEmail);
+               window.location.href="./patient/index.html";
+                //change page location from here after ssucessfull signup
+            }
+
+
+        })
+        .catch(error => {
+            // console.error('Error posting data:', error);
+        });
+}
+
+function loginAdmin(obj) {
+    console.log("Inside admin");
+
+
+
+    fetch(`${baseURL}/admin/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that we're sending JSON data
+            },
+            body: JSON.stringify(obj) // Convert the data to JSON format
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.userId == null) {
+                openCustomAlert(data.message);
+            } else {
+                
+                showToast("Admin Login SucessFull!!");
+                openCustomAlert("WelCome Admin!!");
+
+                localStorage.setItem("uuid", JSON.stringify(data.uuid));
+                
+                window.location.href = "../Admin_section/Admin_Home.html";
+            }
+        })
+        .catch(error => {
+            console.error('Error posting data:', error);
+        });
+}
+</script>

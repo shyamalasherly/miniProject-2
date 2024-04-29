@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/animations.css">  
+    <link rel="stylesheet" href="../css/main.css">  
+    <link rel="stylesheet" href="../css/admin.css">
+        
+    <title>Appointments</title>
+    <style>
+        .popup{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+        .sub-table{
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px" >
+                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title">Patient</p>
+                                    <p class="profile-subtitle" id="doctorEmailPlaceholder"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="button" value="Log out" class="logout-btn btn-primary-soft btn" onclick="logoutUser()">
+                                </td>
+                            </tr>
+                    </table>
+                    </td>
+                
+                </tr>
+                <tr class="menu-row" >
+                    <td class="menu-btn menu-icon-dashbord " >
+                        <a href="index.html" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-doctor ">
+                        <a href="bookAppoinment.html" class="non-style-link-menu "><div><p class="menu-text">Book An Appointment</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-appoinment menu-active menu-icon-dashbord-active">
+                        <a href="appointment.html" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Appointments</p></a></div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="dash-body">
+            <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+               
+                <!-- <tr>
+                    <td colspan="4" >
+                        <div style="display: flex;margin-top: 40px;">
+                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a Session</div>
+                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font></button>
+                        </a>
+                        </div>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td colspan="4" style="padding-top:10px;width: 100%;" >
+                    
+                        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Appointments</p>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <!-- <td colspan="4" style="padding-top:0px;width: 100%;" >
+                        <center>
+                        <table class="filter-container" border="0" >
+                        <tr>
+                           <td width="10%">
+
+                           </td> 
+                        <td width="5%" style="text-align: center;">
+                        Date:
+                        </td>
+                        <td width="30%">
+                        <form action="" method="post">
+                            
+                            <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
+
+                        </td>
+                        <td width="5%" style="text-align: center;">
+                        Doctor:
+                        </td>
+                        <td width="30%">
+                        <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;" >
+                            <option value="" disabled selected hidden>Choose Doctor Name from the list</option><br/>
+
+                        </select>
+                    </td> -->
+                    <!-- <td width="12%">
+                        <input type="submit"  name="filter" value=" Filter" class=" btn-primary-soft btn button-icon btn-filter"  style="padding: 15px; margin :0;width:100%">
+                        </form>
+                    </td>
+
+                    </tr>
+                            </table> -->
+
+                        </center>
+                    </td>
+                    
+                </tr>
+                
+                  
+                <tr>
+                   <td colspan="4">
+                       <center>
+                        <div class="abc scroll">
+                        <table width="93%" class="sub-table scrolldown" border="0">
+                        <thead>
+                        <tr>
+                            <th class="table-headin">
+                                    
+                                A. No
+                                
+                            </th>
+
+                                <th class="table-headin">
+                                    Patient name
+                                </th>
+                                
+                               
+                                
+                                <th class="table-headin">
+                                    Doctor
+                                </th>
+                                
+                                
+                                <th class="table-headin">
+                                    
+                                    A. Date
+                                    
+                                </th>
+                                <th class="table-headin">
+                                    
+                                    A. Time
+                                    
+                                </th>
+                                <th class="table-headin">
+                                    
+                                    Prescription
+                                    
+                                </tr>
+                                <!-- <th class="table-headin">
+                                    
+                                    Events
+                                    
+                                </tr> -->
+                        </thead>
+                        <tbody id="tbody">
+                        
+                              <!-- <tr >
+                                        <div style="display:flex;justify-content: center;"> -->
+                                        
+                                        <!--<a href="?action=view&id='.$appoid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
+                                       &nbsp;&nbsp;&nbsp;-->
+                                       <!-- </div>
+                                        </td>
+                                    </tr> -->
+                                    
+                            </tbody>
+
+                        </table>
+                        </div>
+                        </center>
+                   </td> 
+                </tr>
+                       
+                        
+                        
+            </table>
+        </div>
+    </div>
+   
+    </div>
+
+</body>
+</html>
+<script>
+    // Define your UUID and baseURL
+
+    const doctorEmail = localStorage.getItem('patientEmail');
+
+    const doctorEmailElement = document.getElementById("doctorEmailPlaceholder");
+
+    // Set the text content of the placeholder element to the email address
+    doctorEmailElement.textContent = doctorEmail;
+
+
+    // let uuid = JSON.parse(localStorage.getItem("uuid")) || "";
+let baseURL = `http://localhost:8080`;
+
+
+// Function to fetch and display data
+// async function getData() {
+//   try {
+//     let res = await fetch(`${baseURL}/reservation/viewall?key=${uuid}`);
+//
+//     if (!res.ok) {
+//       throw new Error(`HTTP error! status: ${res.status}`);
+//     }
+//     let data = await res.json();
+//     console.log(data);
+//     display(data);
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//   }
+// }
+
+    async function getData() {
+        console.log("Function Called");
+        const patientid = JSON.parse(localStorage.getItem('patientId'));
+
+        try {
+            let res = await  fetch(`${baseURL}/appointment/getappointment`);
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            let data = await res.json();
+            // Filter data by userId
+
+            let filteredData = data.filter(item => item.patient.patientId === patientid || item.patient === patientid );
+
+
+            console.log(filteredData);
+            display(filteredData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+
+
+// Function to display data in the HTML table
+function display(data) {
+  console.log(data);
+  let tbody = document.getElementById("tbody");
+  if (!tbody) {
+    console.error('Element with ID "tbody" not found.');
+    return;
+  }
+  tbody.innerHTML = ""; // Clear existing data
+
+  data.forEach((item) => {
+      const patientName = localStorage.getItem('patientName');
+    let row = document.createElement("tr");
+      if(item.prescription === null){
+        row.innerHTML = `
+      <td>${item.id.appointmentId}</td>
+      <td>${item.patientName}</td>
+      <td>${item.doctorName}</td>
+      <td>${item.appointmentDate}</td>
+      <td>${item.appointmentTime}</td>
+      <td>Indrol 10mg , Emeset 5mg  </td>
+    `;
+    }else{
+          // const patientName = localStorage.getItem('patientName');
+          row.innerHTML = `
+      <td>${item.id.appointmentId}</td>
+      <td>${item.patientName}</td>
+      <td>${item.doctorName}</td>
+      <td>${item.appointmentDate}</td>
+      <td>${item.appointmentTime}</td>
+      <td>Indrol 10mg , Emeset 5mg </td>
+
+    `;
+      }
+    tbody.appendChild(row);
+  });
+}
+
+// Call the getData function after the DOM has loaded
+document.addEventListener("DOMContentLoaded", function () {
+  getData();
+});
+
+
+
+    function logoutUser() {
+
+        let patientId = localStorage.getItem("patientId") ||"";
+        if(patientId==""){
+            alert("Please Login First");
+        }else{
+            let url = `${baseURL}/patient/logout`;
+            console.log("PatientId:"+patientId);
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(
+                    key = patientId
+                )
+            }).then(response => response)
+                .then(data => {
+                    console.log(data);
+                    localStorage.setItem("patientName", JSON.stringify(""));
+                    localStorage.setItem("patientId", JSON.stringify(""));
+                    alert("Patient LogOut SucessFull!!");
+                    window.location.href = "../index.html";
+                })
+                .catch(error => {
+                    console.error('Error posting data:', error);
+                });
+        }
+
+    }
+
+</script>

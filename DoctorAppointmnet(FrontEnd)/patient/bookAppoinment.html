@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/animations.css">  
+    <link rel="stylesheet" href="css/main.css">  
+    <link rel="stylesheet" href="css/signup.css">
+        
+    <title>Sign Up</title>
+    
+</head>
+<body>
+
+
+    <center>
+    <div class="container">
+        <table border="0">
+            <tr>
+                <td colspan="2">
+                    <p class="header-text">Book Appointment</p>
+                    <p class="sub-text">Add Your Appointment Details to Continue</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="name" class="form-label">Patient Name: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="text" name="name" id="name" class="input-text" placeholder="Patient Name" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="Doctor" class="form-label">Doctor: </label>
+                </td>
+            </tr>
+            <td class="label-td" colspan="2">
+                <select name="Doctor" id="doctor" class="input-dropdown" required>
+                    <option value="">Select Doctor</option>
+                </select>
+            </td>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="appoinmentDate" class="form-label">Appointment Date: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="date" name="appoinmentDate" id="appoinmentDate" class="input-text" placeholder="Appoinment Date" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="appoinmentTime" class="form-label">Appointment Time:</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="time" name="appoinmentTime" id="appoinmentTime" class="input-text" placeholder="Appoinment Time" required>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="index.html" class="login-btn btn-primary-soft btn">Back</a>
+                </td>
+                <td>
+                    <button class="login-btn btn-primary btn" onclick="add_row()">Submit</button>
+                </td>
+
+            </tr>
+
+            </tr>
+        </table>
+
+    </div>
+</center>
+</body>
+</html>
+<script>
+let baseURL = `http://localhost:8080`;
+
+fetch(`${baseURL}/doctor/getdoc`)
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('doctor');
+            data.forEach(doctor => {
+                const option = document.createElement('option');
+                option.value = doctor.doctorId;
+                option.textContent = `${doctor.doctorName} - ${doctor.specialization}`;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+
+    function add_row() {
+
+let name = document.getElementById("name").value;
+let doctor = document.getElementById("doctor").value;
+let appoinmentDate = document.getElementById("appoinmentDate").value;
+let appoinmentTime = document.getElementById("appoinmentTime").value;
+const doctorName = document.getElementById('doctor').options[document.getElementById('doctor').selectedIndex].text.split(" - ")[0]; // Extract doctor's name from dropdown
+console.log("doctorName:"+doctorName);
+// let password = document.getElementById("password").value;
+// let username = document.getElementById("username").value;
+
+if (name == '' || doctor == '' || appoinmentDate == '' || appoinmentTime == '') {
+    alert('Please fill all mandatory field !!');
+    return false;
+}
+// if (!document.getElementById("agree").checked) {
+//     showToast('Please check Accepting all terms & conditions!!');
+//     return false;
+// }
+const patientId = localStorage.getItem('patientId');
+let obj = {
+    "id":{
+        "time":appoinmentTime
+    },
+    "appointmentDate": appoinmentDate,
+    "patientName":name,
+    "doctorName":doctorName,
+    "patient": {"patientId":patientId},
+    "doctor":{
+        "doctorId":doctor
+    },
+    "appointmentTime": appoinmentTime
+}
+console.log(obj);
+addUser(obj);
+}
+
+
+
+function addUser(obj) {
+
+
+fetch(`${baseURL}/appointment/book`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Specify that we're sending JSON data
+        },
+        body: JSON.stringify(obj), // Convert the data to JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Booking Data:"+JSON.stringify(data));
+        if (data.appoinmentDate === null) {
+             // openCustomAlert(data.message);
+            console.log(data);
+        } else {
+            alert("Booking SucessFull!!");
+            // alerts=openCustomAlert("User SignUp SucessFull!!");
+            console.log(data);
+            // if(alerts) {
+                window.location.href="index.html";
+            // }
+        }
+
+        //change page location from here after ssucessfull signup
+    })
+    .catch(error => {
+        // console.error('Error posting data:', error.);
+    });
+}
+</script>

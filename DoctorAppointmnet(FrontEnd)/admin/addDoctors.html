@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/animations.css">  
+    <link rel="stylesheet" href="../css/main.css">  
+    <link rel="stylesheet" href="../css/signup.css">
+        
+    <title>Sign Up</title>
+    
+</head>
+<body>
+
+
+    <center>
+    <div class="container">
+        <table border="0">
+            <tr>
+                <td colspan="2">
+                    <p class="header-text">Doctor Registeration</p>
+                    <p class="sub-text">Add Your Personal Details to Continue</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="name" class="form-label">Doctor Name: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="text" name="name" id="name" class="input-text" placeholder="Doctor Name" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="email" class="form-label">Email: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="text" name="email" id="email" class="input-text" placeholder="Email" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="Specialty" class="form-label">Specialty: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="text" name="Specialty" id="specialty" class="input-text" placeholder="Specialty" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="password" class="form-label">Password:</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="password" name="password" id="password" class="input-text" placeholder="Password" required>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <!-- <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" > -->
+                    <a href="index.html" class="login-btn btn-primary-soft btn">Back</a>
+
+
+                </td>
+                <td>
+                    <button class="login-btn btn-primary btn" onclick="add_row()">Submit</button>
+                </td>
+
+            </tr>
+            <tr>
+                <!-- <td colspan="2">
+                    <br>
+                    <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
+                    <a href="login.html" class="hover-link1 non-style-link">Login</a>
+                    <br><br><br>
+                </td> -->
+            </tr>
+            </tr>
+        </table>
+
+    </div>
+</center>
+</body>
+</html>
+<script>
+let baseURL = `http://localhost:8080`;
+    function add_row() {
+
+let name = document.getElementById("name").value;
+let email = document.getElementById("email").value;
+let Specialty = document.getElementById("specialty").value;
+let password = document.getElementById("password").value;
+
+
+if (name == '' || email == '' || password == '' || Specialty == '') {
+    alert('Please fill all mandatory field !!');
+    return false;
+}
+
+let obj = {
+    "doctorEmail": email,
+    "password": password,
+    "doctorName": name,
+    "specialization": Specialty
+}
+console.log(obj);
+addUser(obj);
+}
+
+
+function addUser(obj) {
+
+fetch(`${baseURL}/doctor/add`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Specify that we're sending JSON data
+        },
+        body: JSON.stringify(obj), // Convert the data to JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.doctorId === null) {
+
+             // openCustomAlert(data.message);
+            console.log(data);
+        } else {
+            alert("Doctor SignUp SucessFull!!");
+            alerts=openCustomAlert("User SignUp SucessFull!!");
+            console.log(data);
+            // if(alerts) {
+            window.location.href='index.html';
+            // }
+        }
+
+        //change page location from here after ssucessfull signup
+    })
+    .catch(error => {
+        // console.error('Error posting data:', error.);
+    });
+}
+</script>

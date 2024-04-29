@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/animations.css">  
+    <link rel="stylesheet" href="css/main.css">  
+    <link rel="stylesheet" href="css/signup.css">
+        
+    <title>Sign Up</title>
+    
+</head>
+<body>
+
+
+    <center>
+    <div class="container">
+        <table border="0">
+            <tr>
+                <td colspan="2">
+                    <p class="header-text">Patient Registeration</p>
+                    <p class="sub-text">Add Your Personal Details to Continue</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="name" class="form-label">Name: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td">
+                    <input type="text" name="fname" id="fname" class="input-text" placeholder="First Name" required>
+                </td>
+                <td class="label-td">
+                    <input type="text" name="lname" id="lname" class="input-text" placeholder="Last Name" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="email" class="form-label">Email: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="text" name="email" id="email" class="input-text" placeholder="Email" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="dob" class="form-label">Contact No: </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="number" name="contact" id="contact" class="input-text" placeholder="Contact Number" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-td" colspan="2">
+                    <label for="password" class="form-label">Password:</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                    <input type="password" name="password" id="password" class="input-text" placeholder="Password" required>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-td" colspan="2">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="reset" value="Reset" class="login-btn btn-primary-soft btn" >
+                </td>
+                <td>
+                    <button class="login-btn btn-primary btn" onclick="add_row()">Submit</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br>
+                    <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
+                    <a href="login.html" class="hover-link1 non-style-link">Login</a>
+                    <br><br><br>
+                </td>
+            </tr>
+            </tr>
+        </table>
+
+    </div>
+</center>
+</body>
+</html>
+<script>
+let baseURL = `http://localhost:8080`;
+    function add_row() {
+
+let firstname = document.getElementById("fname").value;
+let lastname = document.getElementById("lname").value;
+let email = document.getElementById("email").value;
+let mobile = document.getElementById("contact").value;
+let password = document.getElementById("password").value;
+// let username = document.getElementById("username").value;
+
+if (firstname == '' || lastname == '' || email == '' || password == '' || mobile == '') {
+    alert('Please fill all mandatory field !!');
+    return false;
+}
+// if (!document.getElementById("agree").checked) {
+//     showToast('Please check Accepting all terms & conditions!!');
+//     return false;
+// }
+
+let obj = {
+    "userEmail": email,
+    "userPassword": password,
+    "userFirstName": firstname,
+    "userLastName": lastname,
+    "userContact": mobile
+}
+console.log(obj);
+addUser(obj);
+}
+
+
+function addUser(obj) {
+
+fetch(`${baseURL}/patient/signup`, {
+        method: 'POST',
+    headers: {
+            'Content-Type': 'application/json', // Specify that we're sending JSON data
+        },
+        body: JSON.stringify(obj), // Convert the data to JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Data:"+data.patientId);
+        console.log(data.patientId === null || data.patientId === '');
+        if (data.patientId === null || data.patientId === '') {
+            openCustomAlert(data.message);
+
+            console.log(data);
+        } else {
+            console.log("Hellooo");
+            alert("User SignUp SucessFull!!");
+
+            console.log(data);
+            // if(alerts) {
+            window.location.href = "login.html";
+            // }
+        }
+    })
+    .catch(error => {
+
+    });
+}
+</script>
